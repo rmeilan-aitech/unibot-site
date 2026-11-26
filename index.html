@@ -45,8 +45,8 @@
         } catch (e) {}
       })();
     </script>
-    <script type="module" crossorigin src="/assets/index-lmGCTW68.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DtBtTUmP.css">
+    <script type="module" crossorigin src="/assets/index-BUh0ZCIR.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CpRLwO0o.css">
   </head>
   <body>
     <svg width="0" height="0" class="solo-definiciones" aria-hidden="true">
@@ -94,7 +94,7 @@
         <a href="#como" data-menu="como">Cómo funciona</a>
         <a href="#datos" data-menu="datos">Tus datos</a>
       </nav>
-      <a class="boton boton-barra" href="#lista">Avísame</a>
+      <a class="boton boton-barra" href="#lista" data-avisame>Avísame</a>
     </header>
 
     <main id="contenido">
@@ -111,7 +111,7 @@
             venzan.
           </p>
           <div class="acciones">
-            <a class="boton boton-principal" href="#lista">Avísame cuando salga</a>
+            <a class="boton boton-principal" href="#lista" data-avisame>Avísame cuando salga</a>
             <p class="proximamente">Próximamente en iPhone y Android</p>
           </div>
         </div>
@@ -231,7 +231,7 @@
           <h2>Entérate el primero.</h2>
           <p>Unibot todavía no está en las tiendas. Apúntate a la lista y te avisamos el día que salga.</p>
           <p class="cierre-accion">
-            <a class="boton boton-principal" href="https://unibotcopilot.netlify.app/#avisame" rel="noopener">Apuntarme a la lista</a>
+            <a class="boton boton-principal" href="https://unibotcopilot.netlify.app/#avisame" rel="noopener" data-avisame="final">Apuntarme a la lista</a>
           </p>
           <p class="lista-nota">Gratis. Solo te escribimos para avisarte del lanzamiento.</p>
         </div>
@@ -245,6 +245,92 @@
       </a>
       <p>App no oficial, no afiliada a ninguna universidad ni plataforma.</p>
     </footer>
+
+    <!-- El formulario de «Avísame», con forma de examen. Solo se abre si hay dónde guardar las respuestas
+         (src/config.js) o en vista previa (?examen=1); si no, los botones siguen llevando a la lista de espera. -->
+    <dialog id="examen" class="examen" aria-labelledby="examen-titulo">
+      <div class="pila">
+        <form class="hoja" id="examen-hoja" novalidate>
+          <button type="button" class="hoja-cerrar" data-cerrar aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" /></svg>
+          </button>
+
+          <header class="hoja-cabecera">
+            <span class="marca-ficha"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-unibot" /></svg></span>
+            <div class="hoja-titulos">
+              <p class="hoja-centro">Unibot</p>
+              <h2 id="examen-titulo">Examen de acceso</h2>
+            </div>
+            <p class="hoja-nota" aria-hidden="true">
+              <span>Nota</span>
+              <b id="examen-nota"></b>
+            </p>
+          </header>
+
+          <dl class="hoja-datos">
+            <div><dt>Asignatura</dt><dd>Lista de espera</dd></div>
+            <div><dt>Convocatoria</dt><dd>Lanzamiento</dd></div>
+            <div><dt>Tiempo</dt><dd>30 segundos</dd></div>
+          </dl>
+
+          <p class="hoja-aviso" id="examen-aviso" hidden>Vista previa: este examen todavía no se envía ni se guarda.</p>
+
+          <div class="hoja-cuerpo">
+            <ol class="preguntas">
+              <li class="pregunta">
+                <label for="ex-nombre">¿Cómo te llamas? <span class="puntos">2,5 puntos</span></label>
+                <input id="ex-nombre" name="nombre" type="text" autocomplete="given-name" maxlength="80" required aria-describedby="ex-nombre-error" />
+                <p class="pregunta-error" id="ex-nombre-error"></p>
+              </li>
+              <li class="pregunta">
+                <label for="ex-correo">¿A qué correo te avisamos? <span class="puntos">2,5 puntos</span></label>
+                <input id="ex-correo" name="correo" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="120" required aria-describedby="ex-correo-error" />
+                <p class="pregunta-error" id="ex-correo-error"></p>
+              </li>
+              <li class="pregunta">
+                <label for="ex-universidad">¿En qué universidad estudias? <span class="puntos">2,5 puntos</span></label>
+                <input id="ex-universidad" name="universidad" type="text" autocomplete="organization" maxlength="120" required aria-describedby="ex-universidad-error" />
+                <p class="pregunta-error" id="ex-universidad-error"></p>
+              </li>
+              <li class="pregunta">
+                <fieldset aria-describedby="ex-aula-error">
+                  <legend>¿Qué aula virtual usa tu universidad? <span class="puntos">2,5 puntos</span></legend>
+                  <div class="opciones">
+                    <label class="opcion"><input type="radio" name="aula" value="Canvas" required /><span>Canvas</span></label>
+                    <label class="opcion"><input type="radio" name="aula" value="Blackboard" /><span>Blackboard</span></label>
+                    <label class="opcion"><input type="radio" name="aula" value="Moodle" /><span>Moodle</span></label>
+                    <label class="opcion"><input type="radio" name="aula" value="Otra" /><span>Otra</span></label>
+                    <label class="opcion"><input type="radio" name="aula" value="No lo sé" /><span>No lo sé</span></label>
+                  </div>
+                </fieldset>
+                <p class="pregunta-error" id="ex-aula-error"></p>
+              </li>
+            </ol>
+
+            <!-- Trampa para robots: las personas no la ven ni la rellenan. -->
+            <p class="solo-lectores" aria-hidden="true"><label>No rellenes esta casilla <input type="text" name="web" tabindex="-1" autocomplete="off" /></label></p>
+
+            <label class="hoja-acepto">
+              <input type="checkbox" name="acepto" required aria-describedby="ex-acepto-error" />
+              <span>Acepto que Unibot guarde estos datos para avisarme del lanzamiento.</span>
+            </label>
+            <p class="pregunta-error" id="ex-acepto-error"></p>
+
+            <div class="hoja-pie">
+              <button class="boton boton-entregar" type="submit">Entregar examen</button>
+              <p class="hoja-estado" id="examen-estado" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="hoja-corregido" id="examen-corregido" hidden>
+            <p class="sello" aria-hidden="true">APTO</p>
+            <h3 tabindex="-1" id="examen-entregado">Entregado.</h3>
+            <p id="examen-resumen"></p>
+            <button class="boton boton-entregar" type="button" data-cerrar>Cerrar</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
 
   </body>
 </html>
