@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es" class="sin-3d">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Unibot, la app para universitarios: tu campus de un vistazo</title>
+    <meta
+      name="description"
+      content="Unibot es una app para universitarios que junta las entregas y los exámenes de tu campus virtual en un solo sitio y te avisa antes de que venzan. Próximamente en iPhone y Android."
+    />
+    <meta name="theme-color" content="#06152C" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content="Unibot, la app para universitarios" />
+    <meta
+      property="og:description"
+      content="Las entregas y los exámenes de tu campus virtual, en un solo sitio. Próximamente en iPhone y Android."
+    />
+    <meta property="og:url" content="https://unibot.site/" />
+    <meta property="og:image" content="https://unibot.site/compartir.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://unibot.site/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icono-180.png" />
+    <script>
+      // Antes de pintar: si el dispositivo puede con el 3D y no pide menos movimiento, se prepara la versión 3D.
+      // Si no, la página se queda en la versión fija, que funciona sin JavaScript.
+      (function () {
+        try {
+          var raiz = document.documentElement;
+          var forzar = new URLSearchParams(location.search).get('3d');
+          var calma = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var ahorro = navigator.connection && navigator.connection.saveData;
+          var lienzo = document.createElement('canvas');
+          var gl = lienzo.getContext('webgl2') || lienzo.getContext('webgl');
+          var puede = !!gl && !calma && !ahorro;
+          if (forzar === '0') puede = false;
+          if (forzar === '1' && gl) puede = true;
+          if (puede) {
+            raiz.classList.remove('sin-3d');
+            raiz.classList.add('quiere-3d');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-DflYh84y.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CA438gW8.css">
+  </head>
+  <body>
+    <svg width="0" height="0" class="solo-definiciones" aria-hidden="true">
+      <symbol id="logo-unibot" viewBox="0 0 100 100">
+        <!-- Birrete: tablero y borla -->
+        <path d="M50 16.2 88 34.2 50 52.2 12 34.2z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        <path d="M80.7 36v13" stroke="currentColor" stroke-width="2" />
+        <circle cx="80.7" cy="49.9" r="2.1" fill="currentColor" />
+        <path d="M79.3 51.8h2.8l2.2 11h-7.2z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+        <!-- Cabeza, con la cola del bocadillo -->
+        <path d="M29.6 50.2V44.4Q50 26 70.4 44.4v5.800A21.5 21.5 0 1 1 29.6 50.2z" fill="currentColor" />
+        <path d="M43 72 44.4 85.4 63 72.5z" fill="currentColor" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+        <!-- Filo entre el birrete y la cabeza -->
+        <path d="M29.6 44.4Q50 26 70.4 44.4" fill="none" stroke="var(--hueco, #0B3A75)" stroke-width="1.9" />
+        <!-- Visor, ojos y antena -->
+        <rect x="32.5" y="48.6" width="35" height="20" rx="9.4" fill="var(--hueco, #0B3A75)" />
+        <circle cx="42.6" cy="58.6" r="3.4" fill="currentColor" />
+        <circle cx="57.4" cy="58.6" r="3.4" fill="currentColor" />
+        <path d="M50 42.2V49" stroke="var(--hueco, #0B3A75)" stroke-width="1.9" />
+        <circle cx="50" cy="42.2" r="2.4" fill="var(--hueco, #0B3A75)" />
+      </symbol>
+    </svg>
+
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <!-- Fondos fijos: la luz que sale del móvil y el telón del cierre. Solo se usan con la escena 3D. -->
+    <div class="fondos" aria-hidden="true">
+      <div class="fondo-claro"></div>
+      <div class="fondo-cierre"></div>
+    </div>
+
+    <canvas id="escena" aria-hidden="true"></canvas>
+
+    <header class="barra">
+      <a class="marca" href="#inicio" aria-label="Unibot, ir al inicio">
+        <span class="marca-ficha"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-unibot" /></svg></span>
+        <span class="marca-nombre">Unibot</span>
+      </a>
+      <a class="boton boton-barra" href="#lista">Avísame</a>
+    </header>
+
+    <main id="contenido">
+      <!-- 1 · Portada -->
+      <section id="inicio" class="tramo portada">
+        <div class="portada-texto">
+          <p class="aviso-app">La app para universitarios</p>
+          <h1 class="titular">
+            <span class="linea"><span>Tu uni,</span></span>
+            <span class="linea"><span>de un vistazo.</span></span>
+          </h1>
+          <p class="entradilla">
+            Unibot junta las entregas y los exámenes de tu campus virtual en un solo sitio. Y te avisa antes de que
+            venzan.
+          </p>
+          <div class="acciones">
+            <a class="boton boton-principal" href="#lista">Avísame cuando salga</a>
+            <p class="proximamente">Próximamente en iPhone y Android</p>
+          </div>
+        </div>
+        <figure class="plano plano-portada">
+          <div class="plano-pantalla">
+            <img src="/pantallas/hoy.webp" width="780" height="1588" alt="Pantalla «Hoy» de Unibot: la próxima entrega con su cuenta atrás, la semana y las novedades." />
+          </div>
+        </figure>
+      </section>
+
+      <!-- 2 · De cien pestañas a una -->
+      <section id="junta" class="tramo junta" aria-label="Qué hace Unibot">
+        <div class="junta-fija">
+          <p class="frase frase-antes">Tu campus lo reparte en cien pestañas.</p>
+          <p class="frase frase-despues">Unibot lo junta en una app.</p>
+        </div>
+      </section>
+
+      <!-- 3 · Las pantallas -->
+      <section id="hoy" class="tramo pantalla lado-derecho">
+        <div class="pantalla-texto">
+          <h2>Lo urgente, primero.</h2>
+          <p>Entregas y exámenes ordenados por lo que vence antes, con su cuenta atrás y avisos en el móvil.</p>
+        </div>
+        <figure class="plano">
+          <div class="plano-pantalla">
+            <img loading="lazy" src="/pantallas/hoy.webp" width="780" height="1588" alt="Pantalla «Hoy» de Unibot." />
+          </div>
+        </figure>
+      </section>
+
+      <section id="agenda" class="tramo pantalla lado-izquierdo">
+        <div class="pantalla-texto">
+          <h2>Tu mes, de un vistazo.</h2>
+          <p>Un calendario que se entiende: cada asignatura con su color y lo que toca cada día.</p>
+        </div>
+        <figure class="plano">
+          <div class="plano-pantalla">
+            <img loading="lazy" src="/pantallas/agenda.webp" width="780" height="1588" alt="Agenda de Unibot: calendario del mes con las entregas de cada asignatura." />
+          </div>
+        </figure>
+      </section>
+
+      <section id="estudio" class="tramo pantalla lado-derecho">
+        <div class="pantalla-texto">
+          <h2>Qué estudiar hoy.</h2>
+          <p>Cada asignatura con sus temas, sus notas y un plan que reparte lo pendiente hasta el examen.</p>
+        </div>
+        <figure class="plano">
+          <div class="plano-pantalla">
+            <img loading="lazy" src="/pantallas/asignaturas.webp" width="780" height="1588" alt="Asignaturas en Unibot: una ficha de color por asignatura con su próxima entrega." />
+          </div>
+        </figure>
+      </section>
+
+      <section id="buscar" class="tramo pantalla lado-izquierdo">
+        <div class="pantalla-texto">
+          <h2>Encuentra cualquier apunte.</h2>
+          <p>Un buscador para entregas, material y anuncios. Y las novedades a la vista: fechas que cambian y notas nuevas.</p>
+        </div>
+        <figure class="plano">
+          <div class="plano-pantalla">
+            <img loading="lazy" src="/pantallas/buscar.webp" width="780" height="1588" alt="Buscador de Unibot con entregas, exámenes y material." />
+          </div>
+        </figure>
+      </section>
+
+      <!-- 4 · Cómo funciona -->
+      <section id="como" class="tramo como">
+        <h2>Tres pasos y ya está.</h2>
+        <ol class="pasos">
+          <li>
+            <span class="paso-numero" aria-hidden="true">1</span>
+            <h3>Di qué estudias</h3>
+            <p>Tu universidad, tu grado y tu curso.</p>
+          </li>
+          <li>
+            <span class="paso-numero" aria-hidden="true">2</span>
+            <h3>Conecta tu campus</h3>
+            <p>Entras como siempre, en la página de tu universidad.</p>
+          </li>
+          <li>
+            <span class="paso-numero" aria-hidden="true">3</span>
+            <h3>Unibot lo ordena</h3>
+            <p>Entregas, exámenes y temario, puestos al día solos.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 5 · Tus datos -->
+      <section id="datos" class="tramo datos">
+        <h2>Tus cosas de la uni son tuyas.</h2>
+        <ul class="garantias">
+          <li>
+            <h3>Tu contraseña no pasa por Unibot</h3>
+            <p>La escribes en la página de tu universidad. Unibot no la ve ni la guarda.</p>
+          </li>
+          <li>
+            <h3>Sin anuncios ni rastreo</h3>
+            <p>No hay publicidad ni analítica de terceros.</p>
+          </li>
+          <li>
+            <h3>Se queda en tu móvil</h3>
+            <p>Lo que se lee de tu campus se guarda en tu móvil. Lo borras cuando quieras.</p>
+          </li>
+        </ul>
+        <p class="pro">
+          Más adelante llegará Unibot Pro, con Unibot en tu WhatsApp. Todavía no tiene fecha, y lo que hoy es gratis
+          seguirá siéndolo.
+        </p>
+      </section>
+
+      <!-- 6 · Cierre -->
+      <section id="lista" class="tramo cierre">
+        <div class="cierre-texto">
+          <svg class="cierre-logo" viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-unibot" /></svg>
+          <h2>Entérate el primero.</h2>
+          <p>Unibot todavía no está en las tiendas. Apúntate a la lista y te avisamos el día que salga.</p>
+          <p class="cierre-accion">
+            <a class="boton boton-principal" href="https://unibotcopilot.netlify.app/#avisame" rel="noopener">Apuntarme a la lista</a>
+          </p>
+          <p class="lista-nota">Gratis. Solo te escribimos para avisarte del lanzamiento.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie">
+      <a class="marca" href="#inicio" aria-label="Unibot, ir al inicio">
+        <span class="marca-ficha"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#logo-unibot" /></svg></span>
+        <span class="marca-nombre">Unibot</span>
+      </a>
+      <p>App no oficial, no afiliada a ninguna universidad ni plataforma.</p>
+    </footer>
+
+  </body>
+</html>
